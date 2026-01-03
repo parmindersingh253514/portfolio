@@ -1,0 +1,431 @@
+---
+title: "Task 4: Animation with gganimate"
+author: "Parminder Singh"
+date: "January 2026"
+format:
+  html:
+    code-fold: false
+bibliography: ../references.bib
+---
+
+## Introduction
+
+**Animation** extends the Grammar of Graphics into the temporal domain, adding a fourth dimension to static visualisations. Where static plots show relationships *at one moment in time*, animations reveal **change, evolution, and causality** across sequences.
+
+This task creates a **Gapminder-style animation** using the `gapminder` dataset, which tracks life expectancy, GDP per capita, and population across 184 countries from 1952 to 2007. We will reveal how global inequality in health and wealth has evolved, with particular attention to the impact of the HIV/AIDS crisis on sub-Saharan African nations.
+
+The key narrative: **Despite overall progress, regional inequality and epidemic crises create divergent trajectories.**
+
+```{r setup, include=FALSE}
+library(ggplot2)
+library(gganimate)
+library(gapminder)
+library(dplyr)
+library(scales)
+
+# Data preparation
+data(gapminder)
+head(gapminder)
+```
+
+---
+
+## Animation Principles in the Grammar of Graphics
+
+In the Grammar of Graphics extended to animation [@heer2010; @matejka2016], animation introduces:
+
+### 1. **Frame as an Aesthetic**
+Animation treats time (or sequence) as another dimension, akin to colour, size, or position. Each frame is a complete instantiation of the graphical specification.
+
+### 2. **Temporal Continuity**
+Smooth transitions between frames create the illusion of continuous motion, allowing the eye to track individual elements and perceive trajectories.
+
+### 3. **Narrative Flow**
+The sequence of frames guides the audience through a story: exposition → development → climax → reflection.
+
+---
+
+## Animation 1: Life Expectancy vs. GDP per Capita Over Time
+
+### Design Rationale
+
+This animation mimics the classic Gapminder visualization popularised by Hans Rosling [@rosling2018]:
+
+- **x-axis**: GDP per capita (log scale, to compress extreme range)
+- **y-axis**: Life expectancy (linear scale)
+- **size**: Population (perceptual scale)
+- **colour**: Continent (categorical distinction)
+- **animation**: Year (1952–2007)
+
+The log scale on GDP is critical: it reflects the intuition that doubling income matters more when you're poor (linear wealth increase from \$1k to \$2k) than when you're rich (linear increase from \$20k to \$21k). Logarithmic scaling makes these differences perceptually equivalent.
+
+### Implementation
+
+```{r animation1_gapminder}
+# Animation 1: Classic Gapminder-style scatter
+anim1 <- ggplot(
+  gapminder,
+  aes(
+    x = gdpPercap,
+    y = lifeExp,
+    size = pop,
+    colour = continent,
+    frame = year  # Frame aesthetic for animation
+  )
+) +
+  geom_point(alpha = 0.7) +
+  scale_x_log10(
+    name = "GDP per Capita (USD, log scale)",
+    labels = dollar_format()
+  ) +
+  scale_y_continuous(
+    name = "Life Expectancy (years)",
+    limits = c(25, 90),
+    breaks = seq(25, 90, 10)
+  ) +
+  scale_size_continuous(
+    name = "Population",
+    range = c(1, 12),
+    labels = label_number(scale = 1e-6, suffix = "M")
+  ) +
+  scale_colour_brewer(
+    palette = "Dark2",
+    name = "Continent"
+  ) +
+  labs(
+    title = "Global Health and Wealth Trajectories",
+    subtitle = "Year: {closest_state}",  # Dynamic subtitle showing current year
+    caption = "Size = population; colour = continent. Data: Gapminder (1952–2007)"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 12),
+    axis.title = element_text(size = 10),
+    legend.position = "right"
+  ) +
+  
+  # gganimate specification
+  transition_states(year, transition_length = 1, state_length = 2) +
+  ease_aes("cubic-in-out") +
+  enter_fade() +  # Points fade in
+  exit_fade()    # Points fade out
+
+# Render the animation (run in R/RStudio interactive session)
+# animate(anim1, nframes = 112, fps = 2, width = 800, height = 600, renderer = av_renderer())
+```
+
+### Grammar of Graphics + Animation Components
+
+| Component | Specification |
+|-----------|---------------|
+| **Data** | `gapminder` (1,704 observations; 6 variables) |
+| **Aesthetics** | x = gdpPercap, y = lifeExp, size = pop, colour = continent, **frame = year** |
+| **Geometry** | `geom_point()` |
+| **Stat** | `stat_identity()` |
+| **Scales** | Log10 (x), linear (y), continuous (size), categorical (colour) |
+| **Coordinates** | Cartesian |
+| **Guides** | Title, axis labels, legends |
+| **Animation** | **`transition_states(year)`** – frame by year; `ease_aes()` – smooth transitions |
+
+### Narrative Interpretation
+
+What the animation reveals:
+
+1. **General convergence**: Over 55 years, many nations move rightward (higher GDP) and upward (higher life expectancy).
+
+2. **Persistent inequality**: Despite progress, the spread between rich (rightmost) and poor (leftmost) nations increases absolutely, though relative inequality may decrease.
+
+3. **Regional clusters**: Nations group by continent, with Africa generally lagging, Europe leading.
+
+4. **Outliers and crises**: Individual countries' trajectories reveal specific events:
+   - **China & India**: Steep upward-rightward arrows from the 1990s onward (economic liberalisation).
+   - **Rwanda, Lesotho, Zimbabwe**: Plateau or decline in life expectancy (1990s–2000s) due to HIV/AIDS.
+   - **Japan & Korea**: Steady progress to the top-right corner.
+
+---
+
+## Animation 2: Regional Spotlight – Sub-Saharan Africa and the HIV/AIDS Crisis
+
+### Design Rationale
+
+The global view masks regional tragedies. This animation **zooms into Sub-Saharan Africa**, showing the devastating impact of HIV/AIDS (1985–2005) and early signs of recovery.
+
+We use:
+- **Colour gradient** (instead of points) to show GDP per capita
+- **y-axis trajectory** to show life expectancy over time
+- **Faceting** by region within Africa to isolate patterns
+
+This demonstrates how **narrative framing** (choosing what to show) shapes audience interpretation.
+
+### Implementation
+
+```{r animation2_africa}
+# Prepare Africa-focused data
+africa_data <- gapminder %>%
+  filter(continent == "Africa") %>%
+  mutate(
+    region = case_when(
+      country %in% c("South Africa", "Botswana", "Lesotho", "Mozambique", "Zambia", "Zimbabwe") ~ "Southern Africa",
+      country %in% c("Kenya", "Uganda", "Tanzania", "Rwanda") ~ "East Africa",
+      country %in% c("Nigeria", "Ghana", "Senegal", "Côte d'Ivoire") ~ "West Africa",
+      TRUE ~ "Other Africa"
+    )
+  )
+
+# Animation 2: Africa-focused, with emphasis on HIV/AIDS impact
+anim2 <- ggplot(
+  africa_data,
+  aes(
+    x = year,
+    y = lifeExp,
+    colour = gdpPercap,
+    size = pop,
+    frame = year
+  )
+) +
+  geom_line(aes(group = country), alpha = 0.6, linewidth = 0.5) +
+  geom_point(alpha = 0.8) +
+  facet_wrap(~region, nrow = 2) +
+  scale_x_continuous(
+    name = "Year",
+    breaks = seq(1952, 2007, 10)
+  ) +
+  scale_y_continuous(
+    name = "Life Expectancy (years)",
+    limits = c(30, 80),
+    breaks = seq(30, 80, 10)
+  ) +
+  scale_colour_viridis_c(
+    name = "GDP per Capita",
+    labels = dollar_format()
+  ) +
+  scale_size_continuous(
+    name = "Population",
+    range = c(2, 8),
+    labels = label_number(scale = 1e-6, suffix = "M"),
+    guide = "none"
+  ) +
+  labs(
+    title = "HIV/AIDS and Health Crisis in Sub-Saharan Africa",
+    subtitle = "Trajectories across regions, 1952–2007",
+    caption = "Colour = GDP per capita; line = country trajectory; visible dips in the 1990s–2000s reflect HIV/AIDS impact"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 11),
+    axis.title = element_text(size = 10),
+    strip.text = element_text(face = "bold", size = 10),
+    legend.position = "bottom"
+  ) +
+  
+  # Animation: reveal year by year
+  transition_reveal(year) +
+  ease_aes("linear")
+
+# Render the animation (run in R/RStudio interactive session)
+# animate(anim2, nframes = 112, fps = 2, width = 1000, height = 600, renderer = av_renderer())
+```
+
+### Grammar of Graphics + Animation Components
+
+| Component | Specification |
+|-----------|---------------|
+| **Data** | `gapminder` filtered to Africa (52 countries) |
+| **Aesthetics** | x = year, y = lifeExp, colour = gdpPercap, size = pop, **frame = year** |
+| **Geometry** | `geom_line()` (connecting points across years) + `geom_point()` |
+| **Stat** | `stat_identity()` |
+| **Scales** | Linear (x, y), Viridis (colour), continuous (size) |
+| **Coordinates** | Cartesian |
+| **Faceting** | `facet_wrap(~region)` – four African regions |
+| **Animation** | **`transition_reveal(year)`** – progressively reveal each year's data |
+
+### Narrative Interpretation
+
+This animation reveals:
+
+1. **Regional diversity**: Southern Africa (where HIV/AIDS was most severe) shows distinct downward trends. West Africa shows steadier improvement. East Africa falls in between.
+
+2. **The AIDS crisis** (visible 1985–2005): In Southern Africa, life expectancy plateaus or declines—a visible "dip" in otherwise upward trajectories.
+
+3. **Economic disparities**: Countries with higher GDP (warmer colours) generally maintain higher life expectancy, but wealth does not guarantee health (Botswana and South Africa are relatively wealthy yet severely affected by HIV/AIDS).
+
+4. **Recovery signals**: By 2007, some trajectories begin to rise again (antiretroviral therapy rollout and behaviour change).
+
+---
+
+## Animation 3: Global Progress – Animated Bar Chart Race
+
+### Design Rationale
+
+**Bar chart races** have become popular in data journalism. They create excitement by showing competition and relative movement.
+
+This animation ranks the top 15 countries by life expectancy each year, showing:
+
+- Which nations lead in health outcomes
+- How rankings shift as newcomers rise and leaders fall
+- The role of policy, investment, and crisis in health trajectories
+
+### Implementation
+
+```{r animation3_race}
+# Prepare top 15 countries by life expectancy each year
+top_countries_by_year <- gapminder %>%
+  group_by(year) %>%
+  arrange(desc(lifeExp)) %>%
+  slice_head(n = 15) %>%
+  ungroup() %>%
+  mutate(
+    rank = rep(seq(15, 1), times = n_distinct(year))  # Rank within each year
+  )
+
+# Animation 3: Bar chart race
+anim3 <- ggplot(
+  top_countries_by_year,
+  aes(
+    x = reorder(country, lifeExp),  # Order by life expectancy
+    y = lifeExp,
+    fill = continent,
+    frame = year
+  )
+) +
+  geom_col(alpha = 0.8) +
+  scale_fill_brewer(
+    palette = "Set1",
+    name = "Continent"
+  ) +
+  scale_y_continuous(
+    name = "Life Expectancy (years)",
+    limits = c(0, 85),
+    breaks = seq(0, 85, 10)
+  ) +
+  coord_flip() +  # Horizontal bars for readability
+  labs(
+    title = "Top 15 Countries by Life Expectancy",
+    subtitle = "Year: {closest_state}",
+    x = "Country",
+    caption = "Colour = continent. Rankings shift as nations improve health outcomes."
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 12),
+    axis.title.x = element_text(size = 10),
+    axis.title.y = element_blank(),
+    legend.position = "bottom"
+  ) +
+  
+  # Animation: transition between years
+  transition_states(year, transition_length = 2, state_length = 1) +
+  ease_aes("cubic-in-out") +
+  enter_grow() +  # Bars grow in
+  exit_shrink()   # Bars shrink out
+
+# Render the animation (run in R/RStudio interactive session)
+# animate(anim3, nframes = 112, fps = 2, width = 900, height = 700, renderer = av_renderer())
+```
+
+### Grammar of Graphics + Animation Components
+
+| Component | Specification |
+|-----------|---------------|
+| **Data** | `gapminder` (top 15 countries per year) |
+| **Aesthetics** | x = country (reordered), y = lifeExp, fill = continent, **frame = year** |
+| **Geometry** | `geom_col()` – vertical bars, rotated |
+| **Stat** | `stat_identity()` |
+| **Scales** | Discrete (x), continuous (y), categorical (fill) |
+| **Coordinates** | **`coord_flip()`** – horizontal bars |
+| **Animation** | **`transition_states(year)`** – flip between year rankings |
+
+### Narrative Interpretation
+
+This animation shows:
+
+1. **Consistency at the top**: Japan, Switzerland, Australia, and other wealthy nations remain in the top 15 throughout.
+
+2. **Rising stars**: South Korea, China, and Costa Rica show dramatic climbs, reflecting investments in healthcare and economic development.
+
+3. **Stagnation and decline**: Some nations remain in lower rankings despite decades passing.
+
+4. **Continental patterns**: European nations dominate the top 15 throughout, though non-European countries increasingly break into the top ranks by 2007.
+
+---
+
+## Reflective Commentary: How Animation Alters Perception
+
+### Advantages of Animation
+
+1. **Causality and narrative**: Showing change over time invites causal reasoning ("What caused this dip?" "Why did this country rise?"). Static plots make causality implicit; animation makes it explicit.
+
+2. **Engagement and memorability**: Movement captures attention; studies show audiences retain animated content better than static visualisations.
+
+3. **Revealing trajectories**: Animation lets us see individual entities (countries) move along paths, revealing non-linear patterns (e.g., plateaus, sudden shifts).
+
+4. **Managing overplotting**: Rather than showing all years simultaneously (which would be cluttered), animation reveals one frame at a time, simplifying the visual field.
+
+### Limitations and Risks
+
+1. **Transience**: Viewers cannot scroll back to compare earlier frames; animation requires temporal memory.
+
+2. **Control**: Viewers cannot pause to study details (unless made interactive), and playback speed affects perception.
+
+3. **Biased narrative**: The choice of animation variable (which dimension is temporal) shapes interpretation. A different sequence might tell a different story.
+
+4. **Overuse**: Not all data benefit from animation. Simple comparisons (e.g., 3–4 years) are often clearer in static form.
+
+### When Animation Works Best
+
+- **Progressive revelation**: Showing how distributions shift over many time points
+- **Tracking entities**: Following individual countries/companies/populations as they move through space
+- **Demonstrating processes**: Illustrating how algorithms work (e.g., k-means clustering) or how systems evolve (e.g., epidemics spreading)
+- **Storytelling**: Guiding an audience through a narrative arc
+
+---
+
+## Implementation Notes
+
+### Quarto Integration
+
+In Quarto, animated graphics are rendered as **GIFs** or **MP4s** and embedded in the final HTML document. The workflow is:
+
+1. Define the animation using `gganimate` syntax
+2. Render the animation object using `animate()` within a code chunk
+3. Quarto automatically handles conversion and embedding
+
+```r
+# Example (in a Quarto code chunk)
+my_animation <- ggplot(...) + transition_states(...) + ease_aes(...)
+animate(my_animation, nframes = 100, fps = 2)
+```
+
+### Performance Considerations
+
+- **Frame count**: More frames (higher frame count) create smoother motion but larger file sizes.
+- **FPS (frames per second)**: 2 fps is slow and contemplative; 10+ fps is fast and action-oriented.
+- **Resolution**: Balance readability with file size; 800×600px is reasonable for web display.
+
+---
+
+## Conclusion
+
+Animation extends the Grammar of Graphics to include **time** as a first-class dimension. By sequencing static plots and using smooth transitions, we can reveal:
+
+- **Trends**: How do variables change over time?
+- **Trajectories**: Which individual entities follow which paths?
+- **Causal narratives**: What events or policies explain observed changes?
+
+The three animations in this task demonstrate different narrative angles on the same underlying Gapminder dataset—a key insight: **the same data can tell multiple stories depending on how we frame and visualise it**.
+
+In the final task, we integrate all components (SPEC, Grammar of Graphics, complex graphics, and animation) into a cohesive **Quarto website**, demonstrating that reproducible, academically rigorous data visualisation is not just a technical skill but a form of scholarship.
+
+---
+
+## References
+
+::: {#refs}
+:::

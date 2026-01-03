@@ -1,0 +1,188 @@
+---
+title: "Task 1: Planning a Graphic (The SPEC)"
+author: "Parminder Singh"
+date: "January 2026"
+bibliography: ../references.bib
+---
+
+## Introduction
+
+Effective data visualisation begins not with code, but with **clear, structured planning**. This task demonstrates how writing a formal **SPEC** (Specification) allows us to abstract the design of a graphic from its technical implementation, independent of any particular software.
+
+By separating **specification** from **execution**, we gain several critical advantages:
+
+1. **Reproducibility**: Anyone, using any grammar-of-graphics-based software (R's ggplot2, Python's Plotly, Vega-Lite, etc.), can recreate the same graphic.
+2. **Clarity**: We force ourselves to make explicit design decisions about data encoding *before* writing code.
+3. **Accountability**: A written SPEC can be critiqued, revised, and justified independently of implementation details.
+4. **Communication**: Non-technical stakeholders can understand the *design intent* without needing to read code.
+
+---
+
+## The SPEC Framework
+
+A complete SPEC for a grammar-of-graphics visualisation typically includes:
+
+### 1. **Data**
+- Source and structure
+- Variables involved (names, types, ranges)
+- Any transformations or filtering applied
+
+### 2. **Aesthetics (Mapping)**
+- Which variables map to which visual channels?
+- Colour, size, shape, position (x, y), transparency (alpha), line type, etc.
+
+### 3. **Geometries**
+- What geometric objects represent the data?
+- Points, lines, bars, areas, tiles, polygons, text, etc.
+
+### 4. **Statistical Transformations**
+- Are data aggregated, smoothed, binned, or transformed?
+- e.g., density estimation, regression, 2D binning (for heatmaps)
+
+### 5. **Scales**
+- Are axes linear, logarithmic, or transformed?
+- Are colour scales perceptually uniform?
+- Are there breaks, limits, or custom legends?
+
+### 6. **Coordinates**
+- Cartesian (rectangular), polar, map projections?
+- Aspect ratio and coordinate orientation?
+
+### 7. **Guides (Legends & Axes)**
+- What text labels, titles, and legends are required?
+- How are axes annotated?
+
+### 8. **Faceting (if applicable)**
+- Are subplots used to show data across groups?
+- Facet structure (rows, columns, shared or free scales)?
+
+---
+
+## Why Separate Specification from Execution?
+
+The fundamental insight of the **Grammar of Graphics** [@wilkinson2005] is that any visualisation can be decomposed into a small number of core components, each with well-defined roles. By writing a SPEC:
+
+- **We make theory explicit**: Each component is named and justified.
+- **We prevent ad-hoc design**: Instead of "trying things until it looks good," we reason about *why* each encoding choice is appropriate.
+- **We enable critique and refinement**: Peers can evaluate design decisions at the conceptual level, not just the aesthetic level.
+- **We facilitate reuse**: A well-documented SPEC can be adapted to different datasets or software platforms with confidence.
+
+---
+
+## Example SPEC: Visualising the `faithfuld` Dataset
+
+The `faithfuld` dataset (built into ggplot2) records the waiting time between eruptions and the duration of eruptions for the Old Faithful geyser in Yellowstone.
+
+### Context
+We wish to visualise the **joint distribution** of eruption duration and waiting time, to understand whether these variables are related.
+
+### The SPEC
+
+#### 1. Data
+- **Source**: `ggplot2::faithfuld`
+- **Cases**: 5,625 observations
+- **Variables**:
+  - `eruptions` (numeric): Duration of eruption in minutes (range: ~1.6–5.1)
+  - `waiting` (numeric): Waiting time to next eruption in minutes (range: ~43–96)
+  - `density` (numeric): Estimated 2D kernel density at each point
+
+#### 2. Aesthetics
+- **x-axis**: `eruptions` (eruption duration)
+- **y-axis**: `waiting` (waiting time)
+- **fill colour**: `density` (estimated probability density)
+
+#### 3. Geometries
+- **Raster tiles** (rectangles): Each cell in a fine grid represents a small region of the (eruptions, waiting) space, coloured by its estimated density.
+
+#### 4. Statistical Transformations
+- **2D kernel density estimation**: The data are pre-aggregated into a 2D grid with density values computed via kernel smoothing (bandwidth already optimised in the dataset).
+- No additional transformations are applied; data are plotted as-is.
+
+#### 5. Scales
+- **x-axis**: Linear scale, range 0–6 minutes.
+- **y-axis**: Linear scale, range 40–100 minutes.
+- **colour scale**: Viridis (perceptually uniform), range 0–max density.
+
+#### 6. Coordinates
+- **Cartesian (rectangular)**: Standard x–y plane.
+- **Aspect ratio**: Free (width and height are independent).
+
+#### 7. Guides
+- **x-axis label**: "Eruption Duration (minutes)"
+- **y-axis label**: "Waiting Time to Next Eruption (minutes)"
+- **Title**: "Joint Distribution of Eruption Duration and Waiting Time"
+- **Subtitle**: "Old Faithful Geyser Data"
+- **Colour legend**: "Estimated Density"
+
+#### 8. Faceting
+- **None**: Single panel showing the full dataset.
+
+---
+
+## Variant SPEC: Contour Plot
+
+To compare, here is an alternative SPEC for the same data, using contour lines instead of rasters:
+
+| Component | Raster SPEC | Contour SPEC |
+|-----------|------------|-------------|
+| **Geometry** | Raster tiles | Contour lines + ribbons |
+| **Aesthetics** | x, y, fill (colour) | x, y, colour (lines), fill (ribbons) |
+| **Scale (colour)** | Viridis (continuous) | Custom breaks at density intervals |
+| **Guide** | Colour bar legend | Contour labels on lines |
+
+**Rationale for variant**: Contour plots emphasize *boundaries* between density levels, making it easier to identify distinct regions (e.g., the bimodal structure of the data). Raster plots, conversely, provide a smooth continuous view and are better for showing fine gradations.
+
+---
+
+## Why This Matters Academically
+
+Writing and justifying a SPEC demonstrates:
+
+1. **Understanding of design principles**: You can explain *why* you chose each encoding.
+2. **Clarity of communication**: Your design intent is explicit and defensible.
+3. **Awareness of perceptual theory**: Colour scales, coordinate systems, and geometric choices are not arbitrary; they reflect cognitive science research.
+4. **Reproducibility**: The SPEC can be checked against outputs to verify fidelity.
+
+---
+
+## Implementation Notes
+
+In the subsequent tasks, we will implement these SPECs in R using ggplot2. The code structure will closely mirror the SPEC:
+
+```r
+# Example pseudocode:
+ggplot(data = faithfuld,
+       aes(x = eruptions,           # Aesthetic mapping
+           y = waiting,
+           fill = density)) +
+  geom_raster() +                    # Geometry
+  scale_x_continuous(...) +         # Scales
+  scale_y_continuous(...) +
+  scale_fill_viridis_c(...) +
+  coord_cartesian(...) +            # Coordinates
+  labs(title = "...",               # Guides
+       x = "...", y = "...",
+       fill = "...")
+```
+
+Each ggplot2 function maps directly to a component of the SPEC.
+
+---
+
+## Summary
+
+A SPEC is not just an intermediate step; it is a **critical artefact** in data visualisation work. It:
+
+- Separates **design thinking** from **implementation details**
+- Makes **assumptions and trade-offs explicit**
+- Enables **peer critique and refinement**
+- Ensures **reproducibility across software platforms**
+
+By habitually writing SPECs, you develop the conceptual clarity needed to create graphics that are not merely pretty, but **effective, justified, and defensible**.
+
+---
+
+## References
+
+::: {#refs}
+:::

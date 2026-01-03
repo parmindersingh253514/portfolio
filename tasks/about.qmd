@@ -1,0 +1,197 @@
+---
+title: "About This Portfolio"
+author: "Parminder Singh"
+date: "January 2026"
+bibliography: ../references.bib
+---
+
+## Overview
+
+This e-portfolio documents a complete journey through **data visualisation theory and practice**, grounded in the **Grammar of Graphics** framework. It was created as the summative assignment for Harper Adams University's **Data Visualisation module (SQ4012)**, and represents 50+ hours of conceptual learning, practical implementation, and reflective analysis.
+
+---
+
+## Learning Outcomes Addressed
+
+The portfolio demonstrates competence across all module learning outcomes:
+
+### **(a) Apply the basic concepts of data visualisation**
+
+- Understanding of the Grammar of Graphics as a unifying theoretical framework
+- Knowledge of visual channels, aesthetics, and their perceptual effectiveness
+- Awareness of coordinate systems, scales, and their impact on interpretation
+
+**Evidence**: Tasks 1–2 provide theoretical grounding; all subsequent tasks apply these concepts.
+
+### **(b) Create a variety of visualisations**
+
+- Five distinct graphical variants in Task 3 (raster, contour, polar, log-transformed, faceted)
+- Three animated visualisations in Task 4 (Gapminder-style scatter, Africa-focused time series, bar chart race)
+- Reproducible ggplot2 and gganimate code throughout
+
+**Evidence**: Tasks 3–4 demonstrate technical versatility and design thinking.
+
+### **(c) Analyse and refine plots**
+
+- Detailed SPEC development (Task 1) that precedes implementation
+- Comparative analysis of design alternatives (Task 3, Variant Analysis section)
+- Reflective commentary on perceptual consequences of design choices
+
+**Evidence**: All tasks include explicit justification and comparative evaluation.
+
+### **(d) Synthesise knowledge into reproducible reports**
+
+- Complete Quarto website integrating code, outputs, and narrative
+- Every visualisation is fully reproducible from published code
+- Clear documentation of data sources, transformations, and assumptions
+
+**Evidence**: This entire portfolio is a reproducible artefact; all code chunks can be re-run.
+
+### **(e) Evaluate effectiveness critically**
+
+- Reflective sections in Tasks 3–4 analyse what each design choice reveals or obscures
+- Discussion of perceptual trade-offs (e.g., linear vs. log scales, raster vs. contour)
+- Critical assessment of when animation adds value vs. when it risks misleading audiences
+
+**Evidence**: Reflective commentary is integrated throughout; no design choice is presented as universally "best."
+
+---
+
+## Design Principles
+
+This portfolio adheres to several core principles:
+
+### 1. **Separation of Specification from Execution**
+Task 1 demonstrates that clear design thinking *precedes* coding. Each visualisation is grounded in a formal SPEC, ensuring reproducibility across software platforms.
+
+### 2. **Theory-Informed Practice**
+Every practical example (Tasks 3–4) is explicitly grounded in Grammar of Graphics concepts from Task 2. Code comments reference the corresponding GoG component.
+
+### 3. **Reproducibility as a First-Class Concern**
+All data are publicly available (ggplot2, gapminder packages); all code is fully documented; outputs can be regenerated in seconds.
+
+### 4. **Honest Uncertainty and Trade-offs**
+Rather than presenting one "correct" visualisation, we show multiple variants and explicitly discuss their respective strengths and weaknesses. No design is optimal for all purposes.
+
+### 5. **Academic Rigour Without Pretension**
+The writing is formal where appropriate (Task 2) and practical where helpful (Tasks 3–4). References are provided; assumptions are stated.
+
+---
+
+## Technical Stack
+
+- **Language**: R (version 4.3+)
+- **Visualisation**: ggplot2 (static) + gganimate (animation)
+- **Data wrangling**: dplyr, tidyverse
+- **Documentation**: Quarto (this website)
+- **Version control**: Git + GitHub
+- **Hosting**: GitHub Pages
+
+All tools are free and open-source, ensuring accessibility and sustainability.
+
+---
+
+## Data Sources
+
+### faithfuld
+Built into ggplot2; 5,625 observations of the Old Faithful geyser in Yellowstone National Park. Records eruption duration and waiting time between eruptions.
+
+**Citation**: Harman, H. H. (1973). Modern Factor Analysis (2nd ed.). University of Chicago Press.
+
+### gapminder
+Public dataset tracking life expectancy, GDP per capita, and population across 184 countries from 1952 to 2007.
+
+**Citation**: Gapminder Foundation. Available at https://www.gapminder.org/
+
+---
+
+## How to Use This Portfolio
+
+### For Learning
+If you are new to data visualisation or the Grammar of Graphics:
+
+1. Start with **Task 1** to understand how visualisations are planned
+2. Read **Task 2** for theoretical foundations
+3. Work through **Task 3** to see how theory translates to code
+4. Study **Task 4** to understand animation and temporal narrative
+
+### For Reference
+If you seek specific techniques:
+
+- **"How do I create a raster heatmap?"** → Task 3, Variant 1
+- **"How do I use faceting effectively?"** → Task 3, Variant 5
+- **"How do I animate a scatter plot?"** → Task 4, Animation 1
+- **"How do I choose between design alternatives?"** → Task 3, Comparative Analysis section
+
+### For Adaptation
+Every code example is intentionally clear and modular. You can:
+
+- Copy code snippets and adapt them to your own data
+- Substitute variables or datasets while preserving structure
+- Extend the examples with additional layers or facets
+
+---
+
+## Limitations and Future Work
+
+### What This Portfolio Does Not Cover
+- **Interactive visualisation**: Shiny apps, plotly, D3.js (beyond static Quarto)
+- **Network and tree data**: These require different formalisms
+- **Large-scale visualisation**: Strategies for datasets with billions of rows
+- **Colour accessibility**: While Viridis is colourblind-friendly, this portfolio could include more detailed WCAG compliance guidance
+
+### Suggested Extensions
+- Replicating analyses with different datasets (e.g., UN sustainable development data, climate records)
+- Building interactive dashboards using Shiny
+- Creating animations with more complex transitions (e.g., entrance/exit effects coordinated with narration)
+- Extending to 3D visualisation (using rgl or threejs)
+
+---
+
+## Ethical Considerations
+
+### Data Provenance
+All data used here are from reputable, openly available sources. No personally identifiable information is included.
+
+### Responsible Visualisation
+Throughout this portfolio, we emphasize that visualisation choices have moral weight:
+
+- **Colour scales**: We use perceptually uniform scales to avoid misleading comparisons
+- **Axis ranges**: We discuss why arbitrary truncation can distort perception
+- **Animation speed**: We acknowledge that pacing affects emotional response
+- **Narrative framing**: We show how the same data can support different stories
+
+Visualisation is not objective. Our responsibility is transparency about design choices.
+
+### Accessibility
+This website aims to be accessible:
+
+- Alt text for figures (to be added in final review)
+- Colour choices are colourblind-friendly where possible
+- Code is clearly formatted and readable
+- Text alternatives to figures are provided where appropriate
+
+---
+
+## Assessment and Self-Reflection
+
+### Strengths of This Work
+- **Breadth**: Five distinct visualisation types across two datasets
+- **Depth**: Each task includes both theoretical and practical components
+- **Reflexivity**: Design decisions are explicitly justified rather than presented as obvious
+- **Reproducibility**: Every output can be regenerated; no hand-drawn elements
+
+### Areas for Improvement
+- Animation sections would benefit from embedded MP4/GIF outputs (pending Quarto rendering)
+- Task 3 could include user testing data (e.g., "which variant do audiences understand fastest?")
+- Colour accessibility audit (WCAG contrast ratios) could be more systematic
+
+---
+
+## Contact and Feedback
+
+For questions or feedback on this portfolio, contact parmindersingh368975@gmail.com
+
+**Last updated**: January 2026
+**Status**: Submitted for assessment
+

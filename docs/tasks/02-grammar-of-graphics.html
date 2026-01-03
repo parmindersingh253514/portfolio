@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Parminder Singh">
+<meta name="dcterms.date" content="2026-01-01">
+
+<title>Task 2: Explaining the Grammar of Graphics – Data Visualisation e-Portfolio</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-de84f8d6bb715db06a919283c2d1e787.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-4d01e6e8a406b62be36f5785d81e4bf1.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Data Visualisation e-Portfolio</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tasks/01-spec.html"> 
+<span class="menu-text">Task 1: SPEC</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../tasks/02-grammar-of-graphics.html" aria-current="page"> 
+<span class="menu-text">Task 2: Grammar of Graphics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tasks/03-complex-graphics.html"> 
+<span class="menu-text">Task 3: Complex Graphics</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tasks/04-animation.html"> 
+<span class="menu-text">Task 4: Animation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tasks/about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#core-components-of-the-grammar-of-graphics" id="toc-core-components-of-the-grammar-of-graphics" class="nav-link" data-scroll-target="#core-components-of-the-grammar-of-graphics">Core Components of the Grammar of Graphics</a>
+  <ul class="collapse">
+  <li><a href="#data-and-variables" id="toc-data-and-variables" class="nav-link" data-scroll-target="#data-and-variables">1. Data and Variables</a></li>
+  <li><a href="#aesthetics-mapping-data-to-visual-channels" id="toc-aesthetics-mapping-data-to-visual-channels" class="nav-link" data-scroll-target="#aesthetics-mapping-data-to-visual-channels">2. Aesthetics: Mapping Data to Visual Channels</a></li>
+  <li><a href="#geometric-objects-geoms" id="toc-geometric-objects-geoms" class="nav-link" data-scroll-target="#geometric-objects-geoms">3. Geometric Objects (Geoms)</a></li>
+  <li><a href="#statistical-transformations-stats" id="toc-statistical-transformations-stats" class="nav-link" data-scroll-target="#statistical-transformations-stats">4. Statistical Transformations (Stats)</a></li>
+  <li><a href="#scales-and-transformations" id="toc-scales-and-transformations" class="nav-link" data-scroll-target="#scales-and-transformations">5. Scales and Transformations</a></li>
+  <li><a href="#coordinate-systems" id="toc-coordinate-systems" class="nav-link" data-scroll-target="#coordinate-systems">6. Coordinate Systems</a></li>
+  <li><a href="#guides-legends-and-axes" id="toc-guides-legends-and-axes" class="nav-link" data-scroll-target="#guides-legends-and-axes">7. Guides: Legends and Axes</a></li>
+  <li><a href="#faceting-small-multiples" id="toc-faceting-small-multiples" class="nav-link" data-scroll-target="#faceting-small-multiples">8. Faceting: Small Multiples</a></li>
+  </ul></li>
+  <li><a href="#synthesis-building-complex-graphics" id="toc-synthesis-building-complex-graphics" class="nav-link" data-scroll-target="#synthesis-building-complex-graphics">Synthesis: Building Complex Graphics</a>
+  <ul class="collapse">
+  <li><a href="#example-a-publication-quality-plot-of-faithfuld" id="toc-example-a-publication-quality-plot-of-faithfuld" class="nav-link" data-scroll-target="#example-a-publication-quality-plot-of-faithfuld">Example: A Publication-Quality Plot of <code>faithfuld</code></a></li>
+  </ul></li>
+  <li><a href="#implications-for-data-visualisation-practice" id="toc-implications-for-data-visualisation-practice" class="nav-link" data-scroll-target="#implications-for-data-visualisation-practice">Implications for Data Visualisation Practice</a></li>
+  <li><a href="#limitations-and-alternatives" id="toc-limitations-and-alternatives" class="nav-link" data-scroll-target="#limitations-and-alternatives">Limitations and Alternatives</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Task 2: Explaining the Grammar of Graphics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Parminder Singh </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">January 1, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The <strong>Grammar of Graphics</strong> <span class="citation" data-cites="wilkinson2005">(<a href="#ref-wilkinson2005" role="doc-biblioref">Wilkinson 2005</a>)</span> provides a theoretical framework for constructing data visualisations by decomposing them into a set of independent, composable components. This essay explains how aesthetics, scales, geometries, coordinates, and guides work together to allow us to construct arbitrarily complex graphics.</p>
+<p>Rather than thinking of visualisation as a collection of named plot types (bar chart, scatter plot, histogram, etc.), the Grammar of Graphics treats visualisation as a <strong>language</strong> in which data dimensions are mapped to visual properties, and those visual properties are rendered through geometric objects. This perspective is both powerful and liberating: once you understand the grammar, you can create visualisations you may never have seen before by composing familiar building blocks.</p>
+<hr>
+</section>
+<section id="core-components-of-the-grammar-of-graphics" class="level2">
+<h2 class="anchored" data-anchor-id="core-components-of-the-grammar-of-graphics">Core Components of the Grammar of Graphics</h2>
+<section id="data-and-variables" class="level3">
+<h3 class="anchored" data-anchor-id="data-and-variables">1. Data and Variables</h3>
+<p>All visualisations begin with <strong>data</strong>: a set of observations (rows) and <strong>variables</strong> (columns). Variables are the fundamental units of analysis.</p>
+<p>In ggplot2 terminology, we distinguish:</p>
+<ul>
+<li><strong>Quantitative (numerical)</strong> variables: age, income, temperature, eruption duration</li>
+<li><strong>Categorical (discrete)</strong> variables: country, species, gender, eruption type</li>
+</ul>
+<p>Understanding the <strong>type</strong> of each variable is critical because it constrains which aesthetic and geometric mappings are sensible.</p>
+<p><strong>Example from <code>faithfuld</code>:</strong> - <code>eruptions</code> (numeric): eruption duration in minutes - <code>waiting</code> (numeric): waiting time to next eruption - <code>density</code> (numeric): estimated 2D probability density</p>
+<hr>
+</section>
+<section id="aesthetics-mapping-data-to-visual-channels" class="level3">
+<h3 class="anchored" data-anchor-id="aesthetics-mapping-data-to-visual-channels">2. Aesthetics: Mapping Data to Visual Channels</h3>
+<p><strong>Aesthetics</strong> are the visual channels through which data are encoded: position (x, y), colour, size, shape, transparency (alpha), line type, and so on.</p>
+<p>An <strong>aesthetic mapping</strong> is an assignment: “let x represent eruption duration” or “let colour represent density.”</p>
+<section id="key-aesthetic-dimensions" class="level4">
+<h4 class="anchored" data-anchor-id="key-aesthetic-dimensions">Key Aesthetic Dimensions</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aesthetic</th>
+<th>Type</th>
+<th>Best For</th>
+<th>Constraints</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>x, y</strong></td>
+<td>Position</td>
+<td>All data types</td>
+<td>Limited to 2D (Cartesian)</td>
+</tr>
+<tr class="even">
+<td><strong>colour</strong></td>
+<td>Hue/value</td>
+<td>Categorical or continuous</td>
+<td>Human colour discrimination ~7–10 levels</td>
+</tr>
+<tr class="odd">
+<td><strong>size</strong></td>
+<td>Area/radius</td>
+<td>Numeric</td>
+<td>Perception is non-linear (use power law)</td>
+</tr>
+<tr class="even">
+<td><strong>shape</strong></td>
+<td>Symbol</td>
+<td>Categorical</td>
+<td>~6–8 distinct shapes before confusion</td>
+</tr>
+<tr class="odd">
+<td><strong>alpha</strong></td>
+<td>Transparency</td>
+<td>Numeric or categorical</td>
+<td>Difficult to judge absolute values</td>
+</tr>
+<tr class="even">
+<td><strong>linetype</strong></td>
+<td>Pattern</td>
+<td>Categorical</td>
+<td>~5–6 types before confusion</td>
+</tr>
+<tr class="odd">
+<td><strong>fill</strong></td>
+<td>Interior colour</td>
+<td>Categorical or continuous</td>
+<td>Same constraints as colour</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="perceptual-ordering" class="level4">
+<h4 class="anchored" data-anchor-id="perceptual-ordering">Perceptual Ordering</h4>
+<p>Not all aesthetics are equally effective at communicating information. Research in psychophysics <span class="citation" data-cites="cleveland1984">(<a href="#ref-cleveland1984" role="doc-biblioref">Cleveland and McGill 1984</a>)</span> identifies a hierarchy of effectiveness:</p>
+<ol type="1">
+<li><strong>Position along a common scale</strong> (best)</li>
+<li><strong>Position on identical, non-aligned scales</strong></li>
+<li><strong>Length</strong></li>
+<li><strong>Direction / angle</strong></li>
+<li><strong>Area</strong></li>
+<li><strong>Volume</strong></li>
+<li><strong>Colour hue / saturation</strong> (worst)</li>
+</ol>
+<p>This means:</p>
+<ul>
+<li>Use <strong>position (x, y)</strong> for the most important variables.</li>
+<li>Use <strong>size</strong> for moderately important information.</li>
+<li>Reserve <strong>colour</strong> for secondary or categorical distinctions.</li>
+</ul>
+<p><strong>Example with <code>faithfuld</code>:</strong></p>
+<p>If we map: - <code>eruptions</code> → x-axis (position: most important) - <code>waiting</code> → y-axis (position: most important) - <code>density</code> → colour fill (colour: secondary information)</p>
+<p>…we are signalling that eruption duration and waiting time are the primary focus, while density is contextual information.</p>
+<hr>
+</section>
+</section>
+<section id="geometric-objects-geoms" class="level3">
+<h3 class="anchored" data-anchor-id="geometric-objects-geoms">3. Geometric Objects (Geoms)</h3>
+<p><strong>Geometries</strong> are the tangible marks—the shapes—that are drawn on the canvas to represent data. Each geom instantiates one or more aesthetics.</p>
+<p>Common geoms include:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 40%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Geom</th>
+<th>Aesthetics</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_point()</code></td>
+<td>x, y, colour, size, shape, alpha</td>
+<td>Scatter plots; bivariate relationships</td>
+</tr>
+<tr class="even">
+<td><code>geom_line()</code></td>
+<td>x, y, colour, linetype</td>
+<td>Time series; connected sequences</td>
+</tr>
+<tr class="odd">
+<td><code>geom_bar()</code></td>
+<td>x, y, fill, colour</td>
+<td>Categorical counts or aggregates</td>
+</tr>
+<tr class="even">
+<td><code>geom_histogram()</code></td>
+<td>x, y (count), fill</td>
+<td>Distribution of a single numeric variable</td>
+</tr>
+<tr class="odd">
+<td><code>geom_raster()</code></td>
+<td>x, y, fill</td>
+<td>Heatmaps; 2D grids of colour values</td>
+</tr>
+<tr class="even">
+<td><code>geom_contour()</code></td>
+<td>x, y, colour, linetype</td>
+<td>Contour lines from 3D surfaces</td>
+</tr>
+<tr class="odd">
+<td><code>geom_boxplot()</code></td>
+<td>x, y, fill</td>
+<td>Distribution, quartiles, and outliers</td>
+</tr>
+<tr class="even">
+<td><code>geom_smooth()</code></td>
+<td>x, y, fill</td>
+<td>Regression lines and confidence intervals</td>
+</tr>
+<tr class="odd">
+<td><code>geom_text()</code></td>
+<td>x, y, label, colour, size</td>
+<td>Annotations; labels on plots</td>
+</tr>
+</tbody>
+</table>
+<section id="layering-geoms" class="level4">
+<h4 class="anchored" data-anchor-id="layering-geoms">Layering Geoms</h4>
+<p>A powerful feature of the Grammar of Graphics is <strong>layering</strong>: multiple geoms can be rendered on the same coordinate system. For example:</p>
+<pre><code>data + scatter plot (points) + regression line + confidence ribbon</code></pre>
+<p>Each layer can have its own data source, aesthetic mappings, and statistical transformation, allowing us to combine different representations of the data coherently.</p>
+<p><strong>Example with <code>faithfuld</code>:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span>           <span class="co"># Layer 1: coloured tiles</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>()            <span class="co"># Layer 2: contour lines (optional overlay)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, raster tiles show the density distribution, and contour lines emphasize boundaries.</p>
+<hr>
+</section>
+</section>
+<section id="statistical-transformations-stats" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-transformations-stats">4. Statistical Transformations (Stats)</h3>
+<p>Most geoms perform <strong>statistical transformations</strong> on the raw data before plotting. A stat is a function that:</p>
+<ul>
+<li>Takes raw data as input</li>
+<li>Performs a calculation (binning, smoothing, counting, density estimation, etc.)</li>
+<li>Outputs aggregated or transformed data for rendering</li>
+</ul>
+<p>Common stats include:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 31%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stat</th>
+<th>Purpose</th>
+<th>Typical Geom</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>stat_count()</code></td>
+<td>Count observations per category</td>
+<td><code>geom_bar()</code></td>
+</tr>
+<tr class="even">
+<td><code>stat_bin()</code></td>
+<td>Bin numeric data and count</td>
+<td><code>geom_histogram()</code></td>
+</tr>
+<tr class="odd">
+<td><code>stat_summary()</code></td>
+<td>Aggregate (e.g., mean ± SD) per group</td>
+<td><code>geom_pointrange()</code></td>
+</tr>
+<tr class="even">
+<td><code>stat_density()</code></td>
+<td>1D kernel density estimation</td>
+<td><code>geom_area()</code>, <code>geom_line()</code></td>
+</tr>
+<tr class="odd">
+<td><code>stat_density2d()</code></td>
+<td>2D kernel density estimation</td>
+<td><code>geom_contour()</code>, <code>geom_raster()</code></td>
+</tr>
+<tr class="even">
+<td><code>stat_smooth()</code></td>
+<td>Regression + confidence interval</td>
+<td><code>geom_smooth()</code></td>
+</tr>
+<tr class="odd">
+<td><code>stat_summary_bin()</code></td>
+<td>Bin and summarise</td>
+<td>Various</td>
+</tr>
+</tbody>
+</table>
+<section id="raw-vs.-transformed-data" class="level4">
+<h4 class="anchored" data-anchor-id="raw-vs.-transformed-data">Raw vs.&nbsp;Transformed Data</h4>
+<p>In the <code>faithfuld</code> dataset, the <code>density</code> variable is <em>pre-calculated</em> (2D kernel density estimation has already been applied). When we plot it, we use <code>stat_identity()</code> (the default for <code>geom_raster()</code> when fill is continuous), which means “plot the data as-is, without transformation.”</p>
+<p>Conversely, if we began with raw eruption data and wanted to show its distribution, we would use:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithful, <span class="fu">aes</span>(<span class="at">x =</span> eruptions)) <span class="sc">+</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat =</span> <span class="st">"bin"</span>)  <span class="co"># Bins data, counts per bin, plots bars</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here, <code>stat_bin()</code> transforms the raw observations into a frequency distribution.</p>
+<hr>
+</section>
+</section>
+<section id="scales-and-transformations" class="level3">
+<h3 class="anchored" data-anchor-id="scales-and-transformations">5. Scales and Transformations</h3>
+<p><strong>Scales</strong> control how data values are mapped to visual values. They answer questions like:</p>
+<ul>
+<li>What are the minimum and maximum values on the x-axis?</li>
+<li>Which colour represents low density? Which represents high density?</li>
+<li>Are values evenly spaced (linear scale) or logarithmic?</li>
+</ul>
+<section id="scale-types" class="level4">
+<h4 class="anchored" data-anchor-id="scale-types">Scale Types</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 27%">
+<col style="width: 40%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Scale</th>
+<th>Type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>scale_x_continuous()</code></td>
+<td>Numeric, linear</td>
+<td><code>scale_x_continuous(breaks = seq(0, 6, 1))</code></td>
+</tr>
+<tr class="even">
+<td><code>scale_x_log10()</code></td>
+<td>Numeric, logarithmic</td>
+<td>For skewed data or multiplicative relationships</td>
+</tr>
+<tr class="odd">
+<td><code>scale_y_discrete()</code></td>
+<td>Categorical</td>
+<td><code>scale_y_discrete(limits = c("A", "B", "C"))</code></td>
+</tr>
+<tr class="even">
+<td><code>scale_colour_viridis_c()</code></td>
+<td>Colour, continuous</td>
+<td>Perceptually uniform; colourblind-friendly</td>
+</tr>
+<tr class="odd">
+<td><code>scale_colour_brewer()</code></td>
+<td>Colour, categorical</td>
+<td>Pre-designed palettes (RdYlBu, Set1, etc.)</td>
+</tr>
+<tr class="even">
+<td><code>scale_size_continuous()</code></td>
+<td>Size, numeric</td>
+<td><code>scale_size_continuous(range = c(1, 10))</code></td>
+</tr>
+<tr class="odd">
+<td><code>scale_alpha_continuous()</code></td>
+<td>Transparency, numeric</td>
+<td>Range from 0 (invisible) to 1 (opaque)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="perceptually-uniform-colour-scales" class="level4">
+<h4 class="anchored" data-anchor-id="perceptually-uniform-colour-scales">Perceptually Uniform Colour Scales</h4>
+<p>A <strong>perceptually uniform colour scale</strong> ensures that equal numerical differences correspond to equal perceptual differences, unlike rainbow scales which introduce discontinuities <span class="citation" data-cites="viridis2015">(<a href="#ref-viridis2015" role="doc-biblioref"><strong>viridis2015?</strong></a>)</span>.</p>
+<p><strong>Example transformation in <code>faithfuld</code>:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Density"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">max</span>(faithfuld<span class="sc">$</span>density)),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">trans =</span> <span class="st">"sqrt"</span>)  <span class="co"># Square-root transformation for emphasis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The <code>trans = "sqrt"</code> transformation compresses high-density values, emphasizing fine detail in low-density regions.</p>
+<hr>
+</section>
+</section>
+<section id="coordinate-systems" class="level3">
+<h3 class="anchored" data-anchor-id="coordinate-systems">6. Coordinate Systems</h3>
+<p>A <strong>coordinate system</strong> defines how position aesthetics (x, y) are rendered on the canvas. While Cartesian coordinates are default, alternatives offer different insights.</p>
+<section id="cartesian-coordinates" class="level4">
+<h4 class="anchored" data-anchor-id="cartesian-coordinates">Cartesian Coordinates</h4>
+<p>Standard rectangular x–y axes. Preserves angles and distances (useful for most quantitative comparisons).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">6</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">40</span>, <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="polar-coordinates" class="level4">
+<h4 class="anchored" data-anchor-id="polar-coordinates">Polar Coordinates</h4>
+<p>Wraps the Cartesian plane into a circle. Useful for cyclic data (time of day, seasons, compass directions) or to emphasize periodicity.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_polar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="map-projections" class="level4">
+<h4 class="anchored" data-anchor-id="map-projections">Map Projections</h4>
+<p>For geographic data, projects the spherical Earth onto a 2D plane (e.g., Mercator, Albers equal-area). Each projection introduces different distortions.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">3857</span>))  <span class="co"># Web Mercator</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="reflections-and-flips" class="level4">
+<h4 class="anchored" data-anchor-id="reflections-and-flips">Reflections and Flips</h4>
+<p>Reverse the direction of an axis to improve readability or convention.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coord_flip</span>()  <span class="co"># Swap x and y (useful for long categorical labels)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Why coordinates matter:</strong></p>
+<p>Changing the coordinate system can dramatically alter perception of patterns. For example:</p>
+<ul>
+<li>In <strong>Cartesian coordinates</strong>, a bimodal distribution appears as two peaks.</li>
+<li>In <strong>polar coordinates</strong>, the same distribution would wrap around a circle, possibly obscuring the two modes.</li>
+</ul>
+<p>For <code>faithfuld</code>, <strong>Cartesian coordinates</strong> are appropriate because we want to directly compare eruption duration and waiting time as independent quantitative variables.</p>
+<hr>
+</section>
+</section>
+<section id="guides-legends-and-axes" class="level3">
+<h3 class="anchored" data-anchor-id="guides-legends-and-axes">7. Guides: Legends and Axes</h3>
+<p><strong>Guides</strong> are the annotations—axes, legends, titles—that help readers interpret the plot.</p>
+<section id="axes" class="level4">
+<h4 class="anchored" data-anchor-id="axes">Axes</h4>
+<p>Axes communicate the scale and range of position aesthetics:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Eruption Duration (minutes)"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> <span class="st">"Waiting Time to Next Eruption (minutes)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="legends" class="level4">
+<h4 class="anchored" data-anchor-id="legends">Legends</h4>
+<p>Legends explain non-position aesthetics (colour, size, shape):</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">scale_fill_viridis_c</span>(<span class="at">name =</span> <span class="st">"Estimated Density"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="titles-subtitles-and-captions" class="level4">
+<h4 class="anchored" data-anchor-id="titles-subtitles-and-captions">Titles, Subtitles, and Captions</h4>
+<p>Contextual text that frames the visualisation:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Joint Distribution of Eruption Duration and Waiting Time"</span>,</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">subtitle =</span> <span class="st">"Old Faithful Geyser"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">caption =</span> <span class="st">"Data: ggplot2::faithfuld; n = 5625"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="best-practices-for-guides" class="level4">
+<h4 class="anchored" data-anchor-id="best-practices-for-guides">Best Practices for Guides</h4>
+<ol type="1">
+<li><strong>Be explicit</strong>: Every axis and legend should have a clear, informative label.</li>
+<li><strong>Use units</strong>: Include units of measurement (minutes, dollars, kg, etc.).</li>
+<li><strong>Match data types</strong>: Categorical legends should show distinct symbols/colours; numeric legends should show a smooth colour bar.</li>
+<li><strong>Avoid redundancy</strong>: Remove guides that duplicate information.</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="faceting-small-multiples" class="level3">
+<h3 class="anchored" data-anchor-id="faceting-small-multiples">8. Faceting: Small Multiples</h3>
+<p><strong>Faceting</strong> creates a grid of small plots, each showing a subset of the data. This is useful for:</p>
+<ul>
+<li>Comparing patterns across groups</li>
+<li>Simplifying overplotted graphics</li>
+<li>Following the principle of “divide and conquer”</li>
+</ul>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_wrap</span>(<span class="sc">~</span> eruption_type)  <span class="co"># One subplot per eruption type</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">facet_grid</span>(rows <span class="sc">~</span> cols)      <span class="co"># 2D grid of subplots</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Faceting choices:</p>
+<ul>
+<li><strong>Shared scales</strong> (default): Same axis ranges across all subplots; direct comparison of magnitudes.</li>
+<li><strong>Free scales</strong>: Each subplot has its own scale; useful if groups have very different ranges, but harder to compare.</li>
+</ul>
+<p>For <code>faithfuld</code>, faceting might be used to separate the bimodal distribution into “short eruptions” vs.&nbsp;“long eruptions,” with each facet showing its own density profile.</p>
+<hr>
+</section>
+</section>
+<section id="synthesis-building-complex-graphics" class="level2">
+<h2 class="anchored" data-anchor-id="synthesis-building-complex-graphics">Synthesis: Building Complex Graphics</h2>
+<p>The power of the Grammar of Graphics is that these components are <strong>independent and composable</strong>. A complex graphic is built by:</p>
+<ol type="1">
+<li>Specifying the <strong>data</strong> and <strong>aesthetic mappings</strong></li>
+<li>Layering multiple <strong>geoms</strong>, each with its own (optional) stat and aesthetic overrides</li>
+<li>Scaling the aesthetics appropriately</li>
+<li>Choosing a <strong>coordinate system</strong></li>
+<li>Adding <strong>guides</strong> (labels, legends, titles)</li>
+<li>Optionally applying <strong>faceting</strong></li>
+</ol>
+<section id="example-a-publication-quality-plot-of-faithfuld" class="level3">
+<h3 class="anchored" data-anchor-id="example-a-publication-quality-plot-of-faithfuld">Example: A Publication-Quality Plot of <code>faithfuld</code></h3>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Geometry: raster tiles coloured by density</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Optional: contour lines to emphasize boundaries</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> density), <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Scale: perceptually uniform colour scale</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">name =</span> <span class="st">"Density"</span>) <span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Coordinates: standard Cartesian</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">expand =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Guides: labels and title</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Joint Distribution of Eruption Characteristics"</span>,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Old Faithful Geyser, Yellowstone National Park"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Eruption Duration (minutes)"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Waiting Time to Next Eruption (minutes)"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Data: ggplot2::faithfuld; 2D kernel density estimates"</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Theme for publication quality</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>),</span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">colour =</span> <span class="st">"grey60"</span>),</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">11</span>)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Each component—data, aesthetics, geom, scale, coordinates, guides—addresses a specific aspect of the design, and together they create a comprehensive, defensible visualisation.</p>
+<hr>
+</section>
+</section>
+<section id="implications-for-data-visualisation-practice" class="level2">
+<h2 class="anchored" data-anchor-id="implications-for-data-visualisation-practice">Implications for Data Visualisation Practice</h2>
+<p>Understanding the Grammar of Graphics transforms how we think about visualisation:</p>
+<ol type="1">
+<li><p><strong>Generality over specificity</strong>: Rather than memorising dozens of named chart types, we understand the principles that allow us to create new visualisations.</p></li>
+<li><p><strong>Design as a process</strong>: We no longer ask “what chart type should I use?” but “how should I encode each variable to best communicate the story in the data?”</p></li>
+<li><p><strong>Layering and composition</strong>: We can combine multiple representations (e.g., scatter + regression line + confidence ribbon) in a single, coherent plot.</p></li>
+<li><p><strong>Accessibility</strong>: By consciously choosing scales, coordinates, and aesthetics, we can design visualisations that are inclusive and legible for diverse audiences.</p></li>
+<li><p><strong>Reproducibility</strong>: A ggplot2 script is a complete record of all design decisions, enabling peer review and replication.</p></li>
+</ol>
+<hr>
+</section>
+<section id="limitations-and-alternatives" class="level2">
+<h2 class="anchored" data-anchor-id="limitations-and-alternatives">Limitations and Alternatives</h2>
+<p>While the Grammar of Graphics is powerful, it is not universal:</p>
+<ul>
+<li><strong>Network and tree data</strong>: Designed for tabular data; networks require different formalisms.</li>
+<li><strong>Interactive exploration</strong>: The Grammar is primarily for static visualisation; interactive systems (Shiny, D3.js) layer additional complexity.</li>
+<li><strong>Real-time streaming data</strong>: Geoms are static objects; animated graphics require extensions (gganimate).</li>
+</ul>
+<p>Nonetheless, the Grammar provides a <strong>conceptual foundation</strong> that extends to these domains and others.</p>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The Grammar of Graphics is both a <strong>theoretical framework</strong> and a <strong>practical toolkit</strong>. It teaches us that visualisation is a language—a system of rules for mapping data to visual form—rather than a collection of tricks. By mastering its components and their interactions, we develop the capacity to design graphics that are:</p>
+<ul>
+<li><strong>Effective</strong>: Data encodings leverage human perception effectively.</li>
+<li><strong>Appropriate</strong>: Design choices are justified, not arbitrary.</li>
+<li><strong>Reproducible</strong>: Anyone can recreate the work from specification or code.</li>
+<li><strong>Extensible</strong>: New ideas can be explored by composing familiar building blocks.</li>
+</ul>
+<p>In the following tasks, we apply these principles to create complex, multi-variant visualisations and to deploy animation as a tool for temporal reasoning—all grounded in the Grammar of Graphics.</p>
+<hr>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-cleveland1984" class="csl-entry" role="listitem">
+Cleveland, William S., and Robert McGill. 1984. <span>“Graphical Perception: Theory, Experimentation, and Application to the Development of Graphical Methods.”</span> <em>Journal of the American Statistical Association</em> 79 (387): 531–54.
+</div>
+<div id="ref-wilkinson2005" class="csl-entry" role="listitem">
+Wilkinson, Leland. 2005. <em>The Grammar of Graphics</em>. 2nd ed. Springer.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>© 2025-2026 Data Visualisation Portfolio | Submitted to Harper Adams University</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

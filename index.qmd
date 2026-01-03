@@ -1,0 +1,78 @@
+---
+title: "Data Visualisation e-Portfolio"
+subtitle: "Demonstrating Theory and Practice in the Grammar of Graphics"
+author: "Parminder Singh"
+date: "January 2026"
+bibliography: references.bib
+---
+
+## Welcome
+
+This e-portfolio demonstrates a comprehensive understanding of **data visualisation principles** through the lens of the **Grammar of Graphics**. The work covers theoretical foundations, practical implementation using **ggplot2** and **gganimate**, and reflective analysis of design choices.
+
+## Module Information
+
+- **Module**: Data Visualisation (SQ4012)
+- **Tutor**: Kanthu Joseph Mhango
+- **Submission Deadline**: 15 January 2026
+- **Institution**: Harper Adams University
+
+## Assessment Criteria
+
+This portfolio addresses the following module outcomes:
+
+- **a)** Apply the basic concepts of data visualisation.
+- **b)** Create a variety of visualisations, demonstrating the ability to represent data in a visually compelling manner.
+- **c)** Analyse and refine plots to enhance the clarity and aesthetic appeal of data presentations.
+- **d)** Synthesise knowledge of data visualisation techniques to produce reproducible reports and presentations.
+- **e)** Evaluate the effectiveness of data visualisations, developing a critical eye for data representation and aesthetics.
+
+## Portfolio Structure
+
+### Task 1: Planning a Graphic (The SPEC)
+A formal, software-agnostic specification for designing graphics, demonstrating how separating specification from execution improves reproducibility.
+
+### Task 2: Explaining the Grammar of Graphics
+A detailed academic explanation of key GoG concepts: aesthetics, scales, geometries, coordinates, guides, and facets, with examples from the `faithfuld` dataset.
+
+### Task 3: A Complex Graphic in Practice
+Multiple ggplot2 implementations showing the same information encoded differently:
+- Contour vs raster representations
+- Cartesian vs polar coordinates
+- Alternative colour scales and transformations
+
+### Task 4: Animation with gganimate
+A time-based animated visualisation using `gganimate`, incorporating a personal narrative angle and reflective commentary on how animation changes audience perception.
+
+### Task 5: Compiled Quarto Portfolio
+This website serves as the final submission, integrating all components into a cohesive, navigable learning resource.
+
+## Key Principles
+
+All work in this portfolio adheres to:
+
+- **Reproducibility**: Every output is fully reproducible from raw data.
+- **Academic Rigour**: Explanations reference formal GoG theory and academic literature where appropriate.
+- **Code Quality**: Clear object naming, tidyverse style, well-commented code.
+- **Professional Presentation**: Content is structured for clarity and accessibility.
+
+## Tools and Technologies
+
+- **Language**: R (v4.3+)
+- **Key Packages**: ggplot2, gganimate, tidyverse, ggplot2::faithfuld
+- **Documentation**: Quarto
+- **Version Control**: GitHub
+- **Hosting**: GitHub Pages
+
+## Navigation
+
+Use the navigation bar above to explore each task. Each section includes:
+
+1. **Theory**: Conceptual explanation and academic framing
+2. **Code**: Fully commented, reproducible R code
+3. **Outputs**: Visual results and analysis
+4. **Reflection**: Critical evaluation of design choices
+
+---
+
+**Last updated**: January 2026

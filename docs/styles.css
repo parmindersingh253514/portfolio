@@ -1,0 +1,195 @@
+/* Custom CSS for Data Visualisation Portfolio */
+
+:root {
+  --primary-colour: #2c3e50;
+  --accent-colour: #3498db;
+  --success-colour: #27ae60;
+  --light-bg: #ecf0f1;
+  --text-colour: #2c3e50;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: var(--text-colour);
+  background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  color: var(--primary-colour);
+}
+
+h1 {
+  border-bottom: 3px solid var(--accent-colour);
+  padding-bottom: 0.3em;
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em;
+  margin-top: 1.8em;
+}
+
+a {
+  color: var(--accent-colour);
+  text-decoration: none;
+  transition: colour 0.3s;
+}
+
+a:hover {
+  color: var(--primary-colour);
+  text-decoration: underline;
+}
+
+code {
+  background-color: var(--light-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9em;
+}
+
+pre {
+  background-color: var(--light-bg);
+  padding: 1em;
+  border-radius: 5px;
+  border-left: 4px solid var(--accent-colour);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.95em;
+}
+
+thead {
+  background-color: var(--primary-colour);
+  color: white;
+}
+
+th, td {
+  padding: 0.75em;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+tbody tr:nth-child(even) {
+  background-color: var(--light-bg);
+}
+
+tbody tr:hover {
+  background-color: #d5e8f7;
+  transition: background-color 0.2s;
+}
+
+blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 4px solid var(--accent-colour);
+  colour: #666;
+  font-style: italic;
+}
+
+.navbar {
+  background-color: var(--primary-colour) !important;
+}
+
+.navbar-nav .nav-link {
+  color: #ecf0f1 !important;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--accent-colour) !important;
+}
+
+.page-footer {
+  background-color: var(--light-bg);
+  padding: 2em;
+  margin-top: 3em;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-size: 0.9em;
+  colour: var(--text-colour);
+}
+
+/* Quarto-specific styling */
+.cell-output {
+  margin: 1.5em 0;
+}
+
+.cell-output img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.cell {
+  margin: 1.5em 0;
+}
+
+.sourceCode {
+  background-color: var(--light-bg);
+  border-radius: 5px;
+}
+
+/* Title and subtitle styling */
+.title {
+  color: var(--primary-colour);
+  border-bottom: 3px solid var(--accent-colour);
+  padding-bottom: 0.5em;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+
+/* Publication-quality figure styling */
+figure {
+  text-align: center;
+  margin: 2em 0;
+  padding: 1em;
+  background-color: var(--light-bg);
+  border-radius: 5px;
+}
+
+figcaption {
+  font-size: 0.9em;
+  colour: #666;
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  h1 { font-size: 1.8em; }
+  h2 { font-size: 1.5em; }
+  table { font-size: 0.85em; }
+}
+
+/* Print styling */
+@media print {
+  body {
+    background-color: white;
+    color: black;
+  }
+  a {
+    color: #0000EE;
+    text-decoration: underline;
+  }
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+  table, figure {
+    page-break-inside: avoid;
+  }
+}

@@ -1,0 +1,396 @@
+---
+title: "Task 2: Explaining the Grammar of Graphics"
+author: "Parminder Singh"
+date: "January 2026"
+bibliography: ../references.bib
+---
+
+## Introduction
+
+The **Grammar of Graphics** [@wilkinson2005] provides a theoretical framework for constructing data visualisations by decomposing them into a set of independent, composable components. This essay explains how aesthetics, scales, geometries, coordinates, and guides work together to allow us to construct arbitrarily complex graphics.
+
+Rather than thinking of visualisation as a collection of named plot types (bar chart, scatter plot, histogram, etc.), the Grammar of Graphics treats visualisation as a **language** in which data dimensions are mapped to visual properties, and those visual properties are rendered through geometric objects. This perspective is both powerful and liberating: once you understand the grammar, you can create visualisations you may never have seen before by composing familiar building blocks.
+
+---
+
+## Core Components of the Grammar of Graphics
+
+### 1. Data and Variables
+
+All visualisations begin with **data**: a set of observations (rows) and **variables** (columns). Variables are the fundamental units of analysis.
+
+In ggplot2 terminology, we distinguish:
+
+- **Quantitative (numerical)** variables: age, income, temperature, eruption duration
+- **Categorical (discrete)** variables: country, species, gender, eruption type
+
+Understanding the **type** of each variable is critical because it constrains which aesthetic and geometric mappings are sensible.
+
+**Example from `faithfuld`:**
+- `eruptions` (numeric): eruption duration in minutes
+- `waiting` (numeric): waiting time to next eruption
+- `density` (numeric): estimated 2D probability density
+
+---
+
+### 2. Aesthetics: Mapping Data to Visual Channels
+
+**Aesthetics** are the visual channels through which data are encoded: position (x, y), colour, size, shape, transparency (alpha), line type, and so on.
+
+An **aesthetic mapping** is an assignment: "let x represent eruption duration" or "let colour represent density."
+
+#### Key Aesthetic Dimensions
+
+| Aesthetic | Type | Best For | Constraints |
+|-----------|------|----------|------------|
+| **x, y** | Position | All data types | Limited to 2D (Cartesian) |
+| **colour** | Hue/value | Categorical or continuous | Human colour discrimination ~7–10 levels |
+| **size** | Area/radius | Numeric | Perception is non-linear (use power law) |
+| **shape** | Symbol | Categorical | ~6–8 distinct shapes before confusion |
+| **alpha** | Transparency | Numeric or categorical | Difficult to judge absolute values |
+| **linetype** | Pattern | Categorical | ~5–6 types before confusion |
+| **fill** | Interior colour | Categorical or continuous | Same constraints as colour |
+
+#### Perceptual Ordering
+
+Not all aesthetics are equally effective at communicating information. Research in psychophysics [@cleveland1984] identifies a hierarchy of effectiveness:
+
+1. **Position along a common scale** (best)
+2. **Position on identical, non-aligned scales**
+3. **Length**
+4. **Direction / angle**
+5. **Area**
+6. **Volume**
+7. **Colour hue / saturation** (worst)
+
+This means:
+
+- Use **position (x, y)** for the most important variables.
+- Use **size** for moderately important information.
+- Reserve **colour** for secondary or categorical distinctions.
+
+**Example with `faithfuld`:**
+
+If we map:
+- `eruptions` → x-axis (position: most important)
+- `waiting` → y-axis (position: most important)
+- `density` → colour fill (colour: secondary information)
+
+…we are signalling that eruption duration and waiting time are the primary focus, while density is contextual information.
+
+---
+
+### 3. Geometric Objects (Geoms)
+
+**Geometries** are the tangible marks—the shapes—that are drawn on the canvas to represent data. Each geom instantiates one or more aesthetics.
+
+Common geoms include:
+
+| Geom | Aesthetics | Use Case |
+|------|-----------|----------|
+| `geom_point()` | x, y, colour, size, shape, alpha | Scatter plots; bivariate relationships |
+| `geom_line()` | x, y, colour, linetype | Time series; connected sequences |
+| `geom_bar()` | x, y, fill, colour | Categorical counts or aggregates |
+| `geom_histogram()` | x, y (count), fill | Distribution of a single numeric variable |
+| `geom_raster()` | x, y, fill | Heatmaps; 2D grids of colour values |
+| `geom_contour()` | x, y, colour, linetype | Contour lines from 3D surfaces |
+| `geom_boxplot()` | x, y, fill | Distribution, quartiles, and outliers |
+| `geom_smooth()` | x, y, fill | Regression lines and confidence intervals |
+| `geom_text()` | x, y, label, colour, size | Annotations; labels on plots |
+
+#### Layering Geoms
+
+A powerful feature of the Grammar of Graphics is **layering**: multiple geoms can be rendered on the same coordinate system. For example:
+
+```
+data + scatter plot (points) + regression line + confidence ribbon
+```
+
+Each layer can have its own data source, aesthetic mappings, and statistical transformation, allowing us to combine different representations of the data coherently.
+
+**Example with `faithfuld`:**
+
+```r
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  geom_raster() +           # Layer 1: coloured tiles
+  geom_contour()            # Layer 2: contour lines (optional overlay)
+```
+
+Here, raster tiles show the density distribution, and contour lines emphasize boundaries.
+
+---
+
+### 4. Statistical Transformations (Stats)
+
+Most geoms perform **statistical transformations** on the raw data before plotting. A stat is a function that:
+
+- Takes raw data as input
+- Performs a calculation (binning, smoothing, counting, density estimation, etc.)
+- Outputs aggregated or transformed data for rendering
+
+Common stats include:
+
+| Stat | Purpose | Typical Geom |
+|------|---------|--------------|
+| `stat_count()` | Count observations per category | `geom_bar()` |
+| `stat_bin()` | Bin numeric data and count | `geom_histogram()` |
+| `stat_summary()` | Aggregate (e.g., mean ± SD) per group | `geom_pointrange()` |
+| `stat_density()` | 1D kernel density estimation | `geom_area()`, `geom_line()` |
+| `stat_density2d()` | 2D kernel density estimation | `geom_contour()`, `geom_raster()` |
+| `stat_smooth()` | Regression + confidence interval | `geom_smooth()` |
+| `stat_summary_bin()` | Bin and summarise | Various |
+
+#### Raw vs. Transformed Data
+
+In the `faithfuld` dataset, the `density` variable is *pre-calculated* (2D kernel density estimation has already been applied). When we plot it, we use `stat_identity()` (the default for `geom_raster()` when fill is continuous), which means "plot the data as-is, without transformation."
+
+Conversely, if we began with raw eruption data and wanted to show its distribution, we would use:
+
+```r
+ggplot(faithful, aes(x = eruptions)) +
+  geom_histogram(stat = "bin")  # Bins data, counts per bin, plots bars
+```
+
+Here, `stat_bin()` transforms the raw observations into a frequency distribution.
+
+---
+
+### 5. Scales and Transformations
+
+**Scales** control how data values are mapped to visual values. They answer questions like:
+
+- What are the minimum and maximum values on the x-axis?
+- Which colour represents low density? Which represents high density?
+- Are values evenly spaced (linear scale) or logarithmic?
+
+#### Scale Types
+
+| Scale | Type | Example |
+|-------|------|---------|
+| `scale_x_continuous()` | Numeric, linear | `scale_x_continuous(breaks = seq(0, 6, 1))` |
+| `scale_x_log10()` | Numeric, logarithmic | For skewed data or multiplicative relationships |
+| `scale_y_discrete()` | Categorical | `scale_y_discrete(limits = c("A", "B", "C"))` |
+| `scale_colour_viridis_c()` | Colour, continuous | Perceptually uniform; colourblind-friendly |
+| `scale_colour_brewer()` | Colour, categorical | Pre-designed palettes (RdYlBu, Set1, etc.) |
+| `scale_size_continuous()` | Size, numeric | `scale_size_continuous(range = c(1, 10))` |
+| `scale_alpha_continuous()` | Transparency, numeric | Range from 0 (invisible) to 1 (opaque) |
+
+#### Perceptually Uniform Colour Scales
+
+A **perceptually uniform colour scale** ensures that equal numerical differences correspond to equal perceptual differences, unlike rainbow scales which introduce discontinuities [@viridis2015].
+
+**Example transformation in `faithfuld`:**
+
+```r
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  geom_raster() +
+  scale_fill_viridis_c(name = "Density",
+                       limits = c(0, max(faithfuld$density)),
+                       trans = "sqrt")  # Square-root transformation for emphasis
+```
+
+The `trans = "sqrt"` transformation compresses high-density values, emphasizing fine detail in low-density regions.
+
+---
+
+### 6. Coordinate Systems
+
+A **coordinate system** defines how position aesthetics (x, y) are rendered on the canvas. While Cartesian coordinates are default, alternatives offer different insights.
+
+#### Cartesian Coordinates
+Standard rectangular x–y axes. Preserves angles and distances (useful for most quantitative comparisons).
+
+```r
+coord_cartesian(xlim = c(0, 6), ylim = c(40, 100))
+```
+
+#### Polar Coordinates
+Wraps the Cartesian plane into a circle. Useful for cyclic data (time of day, seasons, compass directions) or to emphasize periodicity.
+
+```r
+coord_polar()
+```
+
+#### Map Projections
+For geographic data, projects the spherical Earth onto a 2D plane (e.g., Mercator, Albers equal-area). Each projection introduces different distortions.
+
+```r
+coord_sf(crs = st_crs(3857))  # Web Mercator
+```
+
+#### Reflections and Flips
+Reverse the direction of an axis to improve readability or convention.
+
+```r
+coord_flip()  # Swap x and y (useful for long categorical labels)
+```
+
+**Why coordinates matter:**
+
+Changing the coordinate system can dramatically alter perception of patterns. For example:
+
+- In **Cartesian coordinates**, a bimodal distribution appears as two peaks.
+- In **polar coordinates**, the same distribution would wrap around a circle, possibly obscuring the two modes.
+
+For `faithfuld`, **Cartesian coordinates** are appropriate because we want to directly compare eruption duration and waiting time as independent quantitative variables.
+
+---
+
+### 7. Guides: Legends and Axes
+
+**Guides** are the annotations—axes, legends, titles—that help readers interpret the plot.
+
+#### Axes
+Axes communicate the scale and range of position aesthetics:
+
+```r
+labs(x = "Eruption Duration (minutes)",
+     y = "Waiting Time to Next Eruption (minutes)")
+```
+
+#### Legends
+Legends explain non-position aesthetics (colour, size, shape):
+
+```r
+scale_fill_viridis_c(name = "Estimated Density")
+```
+
+#### Titles, Subtitles, and Captions
+Contextual text that frames the visualisation:
+
+```r
+labs(title = "Joint Distribution of Eruption Duration and Waiting Time",
+     subtitle = "Old Faithful Geyser",
+     caption = "Data: ggplot2::faithfuld; n = 5625")
+```
+
+#### Best Practices for Guides
+
+1. **Be explicit**: Every axis and legend should have a clear, informative label.
+2. **Use units**: Include units of measurement (minutes, dollars, kg, etc.).
+3. **Match data types**: Categorical legends should show distinct symbols/colours; numeric legends should show a smooth colour bar.
+4. **Avoid redundancy**: Remove guides that duplicate information.
+
+---
+
+### 8. Faceting: Small Multiples
+
+**Faceting** creates a grid of small plots, each showing a subset of the data. This is useful for:
+
+- Comparing patterns across groups
+- Simplifying overplotted graphics
+- Following the principle of "divide and conquer"
+
+```r
+facet_wrap(~ eruption_type)  # One subplot per eruption type
+facet_grid(rows ~ cols)      # 2D grid of subplots
+```
+
+Faceting choices:
+
+- **Shared scales** (default): Same axis ranges across all subplots; direct comparison of magnitudes.
+- **Free scales**: Each subplot has its own scale; useful if groups have very different ranges, but harder to compare.
+
+For `faithfuld`, faceting might be used to separate the bimodal distribution into "short eruptions" vs. "long eruptions," with each facet showing its own density profile.
+
+---
+
+## Synthesis: Building Complex Graphics
+
+The power of the Grammar of Graphics is that these components are **independent and composable**. A complex graphic is built by:
+
+1. Specifying the **data** and **aesthetic mappings**
+2. Layering multiple **geoms**, each with its own (optional) stat and aesthetic overrides
+3. Scaling the aesthetics appropriately
+4. Choosing a **coordinate system**
+5. Adding **guides** (labels, legends, titles)
+6. Optionally applying **faceting**
+
+### Example: A Publication-Quality Plot of `faithfuld`
+
+```r
+library(ggplot2)
+library(viridis)
+
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  
+  # Geometry: raster tiles coloured by density
+  geom_raster() +
+  
+  # Optional: contour lines to emphasize boundaries
+  geom_contour(aes(z = density), colour = "white", alpha = 0.3, linewidth = 0.2) +
+  
+  # Scale: perceptually uniform colour scale
+  scale_fill_viridis_c(option = "inferno", name = "Density") +
+  
+  # Coordinates: standard Cartesian
+  coord_cartesian(expand = FALSE) +
+  
+  # Guides: labels and title
+  labs(
+    title = "Joint Distribution of Eruption Characteristics",
+    subtitle = "Old Faithful Geyser, Yellowstone National Park",
+    x = "Eruption Duration (minutes)",
+    y = "Waiting Time to Next Eruption (minutes)",
+    caption = "Data: ggplot2::faithfuld; 2D kernel density estimates"
+  ) +
+  
+  # Theme for publication quality
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    plot.title = element_text(face = "bold", size = 14),
+    plot.subtitle = element_text(size = 12, colour = "grey60"),
+    axis.title = element_text(size = 11)
+  )
+```
+
+Each component—data, aesthetics, geom, scale, coordinates, guides—addresses a specific aspect of the design, and together they create a comprehensive, defensible visualisation.
+
+---
+
+## Implications for Data Visualisation Practice
+
+Understanding the Grammar of Graphics transforms how we think about visualisation:
+
+1. **Generality over specificity**: Rather than memorising dozens of named chart types, we understand the principles that allow us to create new visualisations.
+
+2. **Design as a process**: We no longer ask "what chart type should I use?" but "how should I encode each variable to best communicate the story in the data?"
+
+3. **Layering and composition**: We can combine multiple representations (e.g., scatter + regression line + confidence ribbon) in a single, coherent plot.
+
+4. **Accessibility**: By consciously choosing scales, coordinates, and aesthetics, we can design visualisations that are inclusive and legible for diverse audiences.
+
+5. **Reproducibility**: A ggplot2 script is a complete record of all design decisions, enabling peer review and replication.
+
+---
+
+## Limitations and Alternatives
+
+While the Grammar of Graphics is powerful, it is not universal:
+
+- **Network and tree data**: Designed for tabular data; networks require different formalisms.
+- **Interactive exploration**: The Grammar is primarily for static visualisation; interactive systems (Shiny, D3.js) layer additional complexity.
+- **Real-time streaming data**: Geoms are static objects; animated graphics require extensions (gganimate).
+
+Nonetheless, the Grammar provides a **conceptual foundation** that extends to these domains and others.
+
+---
+
+## Conclusion
+
+The Grammar of Graphics is both a **theoretical framework** and a **practical toolkit**. It teaches us that visualisation is a language—a system of rules for mapping data to visual form—rather than a collection of tricks. By mastering its components and their interactions, we develop the capacity to design graphics that are:
+
+- **Effective**: Data encodings leverage human perception effectively.
+- **Appropriate**: Design choices are justified, not arbitrary.
+- **Reproducible**: Anyone can recreate the work from specification or code.
+- **Extensible**: New ideas can be explored by composing familiar building blocks.
+
+In the following tasks, we apply these principles to create complex, multi-variant visualisations and to deploy animation as a tool for temporal reasoning—all grounded in the Grammar of Graphics.
+
+---
+
+## References
+
+::: {#refs}
+:::

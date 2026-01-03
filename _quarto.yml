@@ -1,0 +1,39 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Data Visualisation e-Portfolio"
+  navbar:
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Task 1: SPEC"
+        href: tasks/01-spec.qmd
+      - text: "Task 2: Grammar of Graphics"
+        href: tasks/02-grammar-of-graphics.qmd
+      - text: "Task 3: Complex Graphics"
+        href: tasks/03-complex-graphics.qmd
+      - text: "Task 4: Animation"
+        href: tasks/04-animation.qmd
+      - text: "About"
+        href: tasks/about.qmd
+  page-footer:
+    center: "© 2025-2026 Data Visualisation Portfolio | Submitted to Harper Adams University"
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-fold: false
+    code-summary: "Show code"
+    highlight-style: github
+
+execute:
+  echo: true
+  eval: true
+  warning: false
+  message: false
+  cache: false
